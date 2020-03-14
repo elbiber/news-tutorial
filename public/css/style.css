@@ -30,11 +30,34 @@ nav {
     background-color: #5599ff;
 }
 
-
 .warning {
     background-color: #ffdd88;
     color: #cc0000;
     font-weight: bold;
     padding: 1em;
     border: 1px solid #ddbb66;
+}
+
+.content-panel {
+    padding: 1em;
+    background-color: #eee;
+    border: 1px solid black;
+    border-radius: 2px;
+}
+
+/* Forms */
+.form-label {
+    display: inline-block;
+    width: 7em;
+}
+
+.text-input {
+    height: 20px;
+    width: 30em;
+    line-height: 28px;
+    font-size: 16px;
+}
+
+fieldset {
+    border: none;
 }

@@ -1,11 +1,19 @@
 const router = require('express').Router()
 const newsController = require('../controllers/newsController')
 const settingsController = require('../controllers/settingsController')
+const loginController = require('../controllers/loginController')
+const auth = require('../middleware/authMiddlewar')
 
 router.get('/', newsController.renderHome)
 router.get('/home', newsController.renderHome)
-router.get('/admin', settingsController.renderSettings)
-router.get('/settings', settingsController.renderSettings)
-router.post('/settings', settingsController.receiveSettings)
+
+router.get('/admin', auth, settingsController.renderSettings)
+router.get('/settings', auth, settingsController.renderSettings)
+router.post('/settings', auth, settingsController.receiveSettings)
+
+router.get('/login', loginController.renderLogin)
+router.post('/login', loginController.submitLogin)
+
+router.get('/logout', loginController.logout)
 
 module.exports = router
