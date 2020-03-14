@@ -1,12 +1,18 @@
 const fs = require('fs')
 
-const readSettings = () => {
-    try {
-        return JSON.parse(fs.readFileSync('settings.json'))
-    } catch (e) {
-        return {}
-    }
-}
+const readSettings = () => new Promise(resolve => {
+    fs.readFile('settings.json', 'utf-8', (err, data) => {
+        if (!err) {
+            try {
+                resolve(JSON.parse(data))
+            } catch (e) {
+                resolve({})
+            }
+        } else {
+            resolve({})
+        }
+    })
+})
 
 const writeSettings = data => {
     fs.writeFileSync('settings.json', JSON.stringify(data))
