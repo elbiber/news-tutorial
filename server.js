@@ -19,6 +19,7 @@ server.use(logUrlMiddleware)
 server.use(bodyParser.urlencoded({
     extended: true
 }))
+server.use(bodyParser.json())
 
 server.use(express.static('public'))
 
