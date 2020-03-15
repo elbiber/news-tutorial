@@ -1,5 +1,7 @@
+require('dotenv').config()
 const bcrypt = require('bcrypt')
-const userStorage = require('../storage/userStorage')
+
+const userStorage = require(`../storage/${process.env.STORAGE_TYPE}/userStorage`)
 
 
 const ADMIN_HASH = '$2b$10$C1Zj39QlfIVP342YG2AnAurOMgHF2nc5IudXnUGMO1K1joEy8l9xa'
@@ -30,7 +32,19 @@ const create = async user => {
     }
 }
 
+const getById = id => userStorage.getById(id)
+
+const getAll = () => userStorage.getAll()
+
+const deleteById = id => userStorage.deleteById(id).then(affectedRows => ({
+    affectedRows
+}))
+
+
 module.exports = {
     verifyLogin,
-    create
+    create,
+    getById,
+    getAll,
+    deleteById
 }

@@ -17,5 +17,8 @@ router.post('/login', loginController.submitLogin)
 router.get('/logout', loginController.logout)
 
 router.post('/user', userController.create)
+router.get('/user/:id', userController.getById)
+router.get('/user', userController.getAll)
+router.delete('/user/:id', userController.deleteById)
 
 module.exports = router

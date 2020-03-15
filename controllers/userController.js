@@ -12,6 +12,59 @@ const create = (req, res) => {
         })
 }
 
+const getById = (req, res) => {
+    const id = parseInt(req.params.id, 10)
+    if (Number.isNaN(id)) {
+        res.status(400)
+        res.end('Bad user ID given')
+    }
+
+    userService.getById(id)
+        .then(user => {
+            if (user) {
+                res.status(200)
+                res.json(user)
+            } else {
+                res.status(404)
+                res.json(null)
+            }
+        })
+}
+
+const getAll = (req, res) => {
+    userService.getAll()
+        .then(users => {
+            res.json(users)
+        })
+        .catch(err => {
+            res.status(500)
+            res.end(`Error: ${err.message}`)
+        })
+}
+
+const deleteById = (req, res) => {
+    console.log('her')
+    const id = parseInt(req.params.id, 10)
+    if (Number.isNaN(id)) {
+        res.status(400)
+        res.end('Bad user ID given')
+    }
+
+    userService.deleteById(id)
+        .then(result => {
+            const status = result.affectedRows === 0 ? 404 : 200
+            res.status(status)
+            res.json(result)
+        })
+        .catch(err => {
+            res.status(500)
+            res.end(`Error: ${err.message}`)
+        })
+}
+
 module.exports = {
-    create
+    create,
+    getById,
+    getAll,
+    deleteById
 }
