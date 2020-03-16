@@ -1,4 +1,4 @@
-const auth = (req, res, next) => {
+module.exports = (req, res, next) => {
     if (req.session && req.session.isLoggedIn === true) {
         console.log('User is logged in')
         next()
@@ -8,5 +8,3 @@ const auth = (req, res, next) => {
         res.render('not-authorized')
     }
 }
-
-module.exports = auth

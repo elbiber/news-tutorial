@@ -9,10 +9,6 @@ const router = require('./routes')
 const redisOptions = {
     url: process.env.REDIS_URL
 }
-console.log(process.env.NODE_ENV)
-if (process.env.NODE_ENV === 'local') {
-    console.log(process.env.NODE_ENV)
-}
 
 
 require('dotenv').config()
