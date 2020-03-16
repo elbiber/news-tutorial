@@ -1,7 +1,7 @@
 require('dotenv').config()
 const bcrypt = require('bcrypt')
 
-const userStorage = require(`../storage/${process.env.STORAGE_TYPE}/userStorage`)
+const userStorage = require('../storage/userStorage')
 
 
 const ADMIN_HASH = '$2b$10$C1Zj39QlfIVP342YG2AnAurOMgHF2nc5IudXnUGMO1K1joEy8l9xa'
@@ -36,9 +36,33 @@ const getById = id => userStorage.getById(id)
 
 const getAll = () => userStorage.getAll()
 
-const deleteById = id => userStorage.deleteById(id).then(affectedRows => ({
-    affectedRows
-}))
+const deleteById = id => userStorage.deleteById(id)
+    .then(affectedRows => ({
+        affectedRows
+    }))
+
+const update = async (id, {
+    username, first_name, last_name, password
+}) => {
+    if (password) {
+        password = await bcrypt.hash(password, SALT_ROUNDS)
+    }
+    if (username) {
+        if (await userStorage.usernameExistsElseWhere(id, username)) {
+            const err = new Error(`Username "${username}" already taken`)
+            err.code = 'DUPLICATE_USERNAME'
+            throw err
+        }
+    }
+    userStorage
+        .update(id, {
+            username,
+            first_name,
+            last_name,
+            password
+        })
+        .then(affectedRows => ({ affectedRows }))
+}
 
 
 module.exports = {
@@ -46,5 +70,6 @@ module.exports = {
     create,
     getById,
     getAll,
-    deleteById
+    deleteById,
+    update
 }

@@ -1,4 +1,4 @@
-const knex = require('knex')(require('../../knexfile'))
+const knex = require('knex')(require('../knexfile'))
 
 const USER_FIELDS = [
     'id',
@@ -9,19 +9,18 @@ const USER_FIELDS = [
 
 const insert = user => knex('users')
     .insert(user)
-    .returning('id')
     .then(idArray => ({
         insertId: idArray[0]
     }))
 
 const getByUsername = username => knex('users')
-    .where('username', username)
     .select(...USER_FIELDS)
+    .where('username', username)
 
 const getById = id => knex('users')
-    .first()
-    .where({ id })
     .select(...USER_FIELDS)
+    .where({ id })
+    .first()
 
 const getAll = () => knex('users')
     .select(...USER_FIELDS)
@@ -30,10 +29,22 @@ const deleteById = id => knex('users')
     .where({ id })
     .del()
 
+const update = (id, values) => knex('users')
+    .update(values)
+    .where({ id })
+
+const usernameExistsElseWhere = (id, username) => knex('users')
+    .select('id')
+    .where({ username })
+    .andWhereNot({ id })
+    .then(result => result.length > 0)
+
 module.exports = {
     insert,
     getByUsername,
     getById,
     getAll,
-    deleteById
+    deleteById,
+    update,
+    usernameExistsElseWhere
 }

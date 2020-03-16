@@ -20,5 +20,6 @@ router.post('/user', userController.create)
 router.get('/user/:id', userController.getById)
 router.get('/user', userController.getAll)
 router.delete('/user/:id', userController.deleteById)
+router.patch('/user', userController.update)
 
 module.exports = router

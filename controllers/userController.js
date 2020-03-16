@@ -43,7 +43,6 @@ const getAll = (req, res) => {
 }
 
 const deleteById = (req, res) => {
-    console.log('her')
     const id = parseInt(req.params.id, 10)
     if (Number.isNaN(id)) {
         res.status(400)
@@ -62,9 +61,31 @@ const deleteById = (req, res) => {
         })
 }
 
+const update = (req, res) => {
+    const id = parseInt(req.body.id, 10)
+    if (Number.isNaN(id)) {
+        res.status(400)
+        res.end('Bad user ID given')
+    }
+    userService.update(id, req.body)
+        .then(result => {
+            res.status(200)
+            res.json(result)
+        })
+        .catch(err => {
+            if (err.code === 'DUPLICATE_USERNAME') {
+                res.status(400)
+            } else {
+                res.status(500)
+            }
+            res.end(`Error: ${err.message}`)
+        })
+}
+
 module.exports = {
     create,
     getById,
     getAll,
-    deleteById
+    deleteById,
+    update
 }

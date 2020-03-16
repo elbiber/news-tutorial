@@ -30,9 +30,10 @@ module.exports = {
     'arrow-parens': ['error', 'as-needed'],
     'no-alert': 'warn',
     'max-len': ['error', { code: 220 }],
-    'no-param-reassign': ['error', { props: false }],
+    'no-param-reassign': 'off',
     'no-underscore-dangle': 'off',
     'no-var': 'error',
-    'no-plusplus': ["error", { "allowForLoopAfterthoughts": true }]
+    'no-plusplus': ["error", { "allowForLoopAfterthoughts": true }],
+    'camelcase': "off"
   },
 };
