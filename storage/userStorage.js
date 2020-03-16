@@ -17,6 +17,10 @@ const getByUsername = username => knex('users')
     .select(...USER_FIELDS)
     .where('username', username)
 
+const getOneByUsername = username => knex('users')
+    .first(...USER_FIELDS, 'password')
+    .where('username', username)
+
 const getById = id => knex('users')
     .select(...USER_FIELDS)
     .where({ id })
@@ -42,6 +46,7 @@ const usernameExistsElseWhere = (id, username) => knex('users')
 module.exports = {
     insert,
     getByUsername,
+    getOneByUsername,
     getById,
     getAll,
     deleteById,

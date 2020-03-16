@@ -11,9 +11,10 @@ const renderLogin = (req, res) => {
 
 const submitLogin = (req, res) => {
     userService.verifyLogin(req.body.username, req.body.password)
-        .then(loginSuccess => {
-            if (loginSuccess) {
+        .then(user => {
+            if (user) {
                 req.session.isLoggedIn = true
+                req.session.user = user
                 res.redirect('/settings')
             } else {
                 req.body.loginFailed = true

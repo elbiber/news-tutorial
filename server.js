@@ -31,6 +31,7 @@ server.use(session({
 
 server.use((req, res, next) => {
     res.locals.isLoggedIn = req.session && req.session.isLoggedIn
+    res.locals.user = req.session && req.session.user
     next()
 })
 

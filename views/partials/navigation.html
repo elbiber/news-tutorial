@@ -8,4 +8,9 @@
         <li><a href="/login" class="nav-link {{#if loginActive}}active{{/if}}">Login</a></li>
         {{/if}}
     </ul>
+    {{#if isLoggedIn}}
+    <div class="user-info">
+        Eingeloggt als {{ user.first_name }} {{ user.last_name }}
+    </div>
+    {{/if}}
 </nav>

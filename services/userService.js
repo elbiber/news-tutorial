@@ -3,17 +3,17 @@ const bcrypt = require('bcrypt')
 
 const userStorage = require('../storage/userStorage')
 
-
-const ADMIN_HASH = '$2b$10$C1Zj39QlfIVP342YG2AnAurOMgHF2nc5IudXnUGMO1K1joEy8l9xa'
 const SALT_ROUNDS = 10
 
-const verifyLogin = (username, password) => {
-    if (username !== 'admin') {
-        return Promise.resolve(false)
+const verifyLogin = async (username, password) => {
+    const user = await userStorage.getOneByUsername(username)
+    if (!user) {
+        return false
     }
-    return bcrypt.compare(password, ADMIN_HASH)
-}
+    const passwordMatch = await bcrypt.compare(password, user.password)
 
+    return passwordMatch ? user : false
+}
 
 const create = async user => {
     const p1 = userStorage.getByUsername(user.username)
@@ -36,10 +36,9 @@ const getById = id => userStorage.getById(id)
 
 const getAll = () => userStorage.getAll()
 
-const deleteById = id => userStorage.deleteById(id)
-    .then(affectedRows => ({
-        affectedRows
-    }))
+const deleteById = id => userStorage.deleteById(id).then(affectedRows => ({
+    affectedRows
+}))
 
 const update = async (id, {
     username, first_name, last_name, password
@@ -63,7 +62,6 @@ const update = async (id, {
         })
         .then(affectedRows => ({ affectedRows }))
 }
-
 
 module.exports = {
     verifyLogin,
