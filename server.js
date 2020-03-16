@@ -9,6 +9,10 @@ const router = require('./routes')
 const redisOptions = {
     url: process.env.REDIS_URL
 }
+console.log(process.env.NODE_ENV)
+if (process.env.NODE_ENV === 'local') {
+    console.log(process.env.NODE_ENV)
+}
 
 
 require('dotenv').config()
@@ -32,7 +36,7 @@ server.use(express.static('public'))
 
 server.use(
     session({
-        store: new RedisStore(redisOptions),
+        store: process.env.NODE_ENV === 'local' ? null : new RedisStore(redisOptions),
         secret: process.env.SESSION_SECRET || 'Pleas_SET_session_SeCreT',
         resave: false,
         saveUninitialized: true
