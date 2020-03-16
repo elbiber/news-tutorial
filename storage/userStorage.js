@@ -9,6 +9,7 @@ const USER_FIELDS = [
 
 const insert = user => knex('users')
     .insert(user)
+    .returning('id')
     .then(idArray => ({
         insertId: idArray[0]
     }))
