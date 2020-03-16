@@ -2,7 +2,14 @@ const expressHandlebars = require('express-handlebars')
 const express = require('express')
 const bodyParser = require('body-parser')
 const session = require('express-session')
+const RedisStore = require('connect-redis')(session)
 const router = require('./routes')
+
+
+const redisOptions = {
+    url: process.env.REDIS_URL
+}
+
 
 require('dotenv').config()
 
@@ -23,11 +30,14 @@ server.use(bodyParser.json())
 
 server.use(express.static('public'))
 
-server.use(session({
-    secret: process.env.SESSION_SECRET || 'Pleas_SET_session_SeCreT',
-    resave: false,
-    saveUninitialized: true
-}))
+server.use(
+    session({
+        store: new RedisStore(redisOptions),
+        secret: process.env.SESSION_SECRET || 'Pleas_SET_session_SeCreT',
+        resave: false,
+        saveUninitialized: true
+    })
+)
 
 server.use((req, res, next) => {
     res.locals.isLoggedIn = req.session && req.session.isLoggedIn
