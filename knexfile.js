@@ -4,7 +4,7 @@ if (process.env.DATABASE_URL) {
     // We are running on Heroku
     module.exports = {
         client: 'pg',
-        connection: process.env.DB_URL,
+        connection: process.env.DATABASE_URL,
         pool: { min: 1, max: 100 }
     }
 } else {
